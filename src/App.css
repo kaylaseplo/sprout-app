@@ -109,6 +109,195 @@
   color: white;
 }
 
+.classroom-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.classroom-switcher-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (min-width: 480px) {
+  .classroom-switcher-row {
+    flex-direction: row;
+  }
+}
+
+.classroom-select {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.classroom-new-button {
+  padding: 10px 14px;
+  border: 1px solid var(--sage);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sage-dark);
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.classroom-new-button:hover {
+  background: var(--sage);
+  color: white;
+}
+
+.classroom-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.classroom-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.classroom-field input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.classroom-create-form button[type='submit'] {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--sage);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.classroom-create-form button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.classroom-cancel-button {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.classroom-cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.classroom-empty {
+  font-size: 14px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.roster {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.roster-title {
+  font-size: 16px;
+  margin: 0;
+  color: var(--sage-dark);
+}
+
+.roster-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.roster-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.roster-remove {
+  padding: 4px 10px;
+  border: 1px solid var(--terracotta);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--terracotta);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.roster-remove:hover {
+  background: var(--terracotta);
+  color: white;
+}
+
+.roster-empty {
+  font-size: 14px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.roster-add-form {
+  display: flex;
+  gap: 8px;
+}
+
+.roster-add-form input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.roster-add-form button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--sage);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.roster-add-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .chat-page {
   display: flex;
   flex-direction: column;

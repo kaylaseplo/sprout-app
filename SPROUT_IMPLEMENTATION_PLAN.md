@@ -98,7 +98,7 @@ Goal: a logged-in teacher can chat with an early-childhood-expert assistant. Thi
 
 ## Phase 2 — Classrooms & rosters
 
-**Status: NOT STARTED**
+**Status: DONE**
 
 Goal: structure the app around classrooms. A teacher can create a classroom, set its age group, and add children (first name only).
 
