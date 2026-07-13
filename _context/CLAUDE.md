@@ -8,8 +8,10 @@ Sprout is an AI-powered classroom assistant for nursery/daycare teachers. It red
 
 Full product context is in `SPROUT_PRODUCT_BRIEF.md`. The build plan is in `SPROUT_IMPLEMENTATION_PLAN.md`.
 
+
 ## Tech stack (decided — do not change without discussion)
 - React + Vite (frontend)
+- Mobile-first: all UI is designed for phone use first, desktop second. Touch-friendly, narrow-viewport layouts.
 - Supabase (Postgres database, Auth, Storage, Edge Functions)
 - Anthropic Claude API — called ONLY from Supabase Edge Functions, never the browser
 - Model: `claude-sonnet-4-6` for runtime AI calls

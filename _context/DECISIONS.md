@@ -18,6 +18,9 @@ It's the differentiator but also the most complex — voice, image, and storage 
 
 ## Technical decisions
 
+**Mobile-first is a hard requirement**
+Teachers use Sprout on their feet in the classroom, on a phone — not at a desk. Every screen must be designed mobile-first: touch-friendly tap targets, layouts that work on a narrow viewport, minimal typing where possible. Desktop is secondary. This applies to all phases going forward.
+
 **Supabase over Firebase**
 Supabase's Postgres foundation teaches more durable, transferable skills (relational data, SQL, RLS) and locks you in less than Firebase. It bundles auth, database, and storage in one service with a generous free tier.
 

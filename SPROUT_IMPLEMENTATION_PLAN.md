@@ -72,7 +72,7 @@ Goal: stand up the skeleton everything else depends on. No product features yet.
 
 ## Phase 1 — Behavior & Development Chat
 
-**Status: NOT STARTED**
+**Status: DONE**
 
 Goal: a logged-in teacher can chat with an early-childhood-expert assistant. This phase also establishes the secure Edge Function pattern for all future AI calls.
 
@@ -181,6 +181,7 @@ These are noted so they're not forgotten, but each will get its own detailed pla
 ## Working principles for every phase
 
 - **One phase per session.** Don't let Fable wander ahead — it wastes tokens and creates drift.
+- **Mobile-first always.** Teachers use this on a phone in the classroom. Design every screen for a narrow touch viewport first; desktop is secondary.
 - **Keep AI calls in Edge Functions.** Never reintroduce `dangerouslyAllowBrowser`.
 - **Minimize stored data about children.** First names only. No birthdates, no photos of faces used for recognition, no biometric data.
 - **RLS is not optional.** Every table that holds classroom or child data needs Row Level Security so users only see their own.

@@ -1,4 +1,5 @@
 import { useAuth } from '../contexts/auth-context'
+import { Chat } from './Chat'
 
 export function Home() {
   const { profile, user, signOut } = useAuth()
@@ -12,6 +13,7 @@ export function Home() {
         </button>
       </header>
       <p>Welcome, {profile?.full_name || user?.email}.</p>
+      <Chat />
     </div>
   )
 }
