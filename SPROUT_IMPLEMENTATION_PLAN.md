@@ -44,7 +44,7 @@ Do not create all of this in Phase 0. Each phase creates only the tables it need
 
 ## Phase 0 — Foundation (no features)
 
-**Status: NOT STARTED**
+**Status: DONE**
 
 Goal: stand up the skeleton everything else depends on. No product features yet. When this phase is done, a teacher can create an account, log in, log out, and see an empty authenticated home screen.
 
