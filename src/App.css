@@ -216,6 +216,129 @@
   margin: 0;
 }
 
+.activity-generator {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.activity-title {
+  font-size: 18px;
+  margin: 0;
+  color: var(--sage-dark);
+}
+
+.activity-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-form select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.activity-form button[type='submit'] {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--sage);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.activity-form button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.activity-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .activity-cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .activity-card {
+    flex: 1 1 30%;
+  }
+}
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--code-bg);
+}
+
+.activity-card-title {
+  font-size: 16px;
+  margin: 0;
+  color: var(--sage-dark);
+}
+
+.activity-card-meta {
+  font-size: 13px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.activity-card-description {
+  font-size: 14px;
+  line-height: 145%;
+  margin: 0;
+}
+
+.activity-card-materials {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.activity-rating {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.activity-rating-star {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px;
+  cursor: pointer;
+  opacity: 0.35;
+}
+
+.activity-rating-star-active {
+  opacity: 1;
+  color: var(--terracotta);
+}
+
 .roster {
   display: flex;
   flex-direction: column;

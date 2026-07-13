@@ -120,7 +120,7 @@ Goal: structure the app around classrooms. A teacher can create a classroom, set
 
 ## Phase 3 — Activity Generator
 
-**Status: NOT STARTED**
+**Status: DONE**
 
 Goal: port the toddler-toolkit activity generator into Sprout, upgraded with classroom context and history.
 
