@@ -86,8 +86,8 @@ export function ActivityGenerator({ classroom }) {
   }
 
   return (
-    <div className="activity-generator">
-      <h2 className="activity-title">Activity Generator</h2>
+    <div className="screen activity-generator">
+      <h2 className="screen-title">Activity Generator</h2>
 
       <form className="activity-form" onSubmit={handleGenerate}>
         <label className="classroom-field">

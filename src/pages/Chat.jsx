@@ -68,7 +68,7 @@ export function Chat() {
   }
 
   return (
-    <div className="chat-page">
+    <div className="screen chat-screen">
       <div className="chat-messages">
         {messages.map((m, i) => (
           <div key={m.id ?? i} className={`chat-bubble chat-bubble-${m.role}`}>
