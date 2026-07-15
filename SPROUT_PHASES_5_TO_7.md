@@ -36,7 +36,7 @@ Goal: turn the deployed web app into a Progressive Web App so teachers can add i
 
 ## Phase 6 — Child-aware chat (context memory)
 
-**Status: NOT STARTED**
+**Status: DONE**
 **Risk level: Elevated. Stores behavioral notes about named children. Resolve Considerations before building.**
 
 Goal: when a teacher asks the behavior chat about a specific child ("Mateo is having a hard time at drop-off"), Sprout recognizes the child, can use relevant prior context to personalize its guidance, and can save notes from the conversation back to that child's record for continuity.

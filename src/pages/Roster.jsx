@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-export function Roster({ classroom }) {
+export function Roster({ classroom, onSelectChild }) {
   const [children, setChildren] = useState([])
   const [firstName, setFirstName] = useState('')
   const [error, setError] = useState('')
@@ -77,7 +77,13 @@ export function Roster({ classroom }) {
         <ul className="roster-list">
           {children.map((child) => (
             <li key={child.id} className="roster-item">
-              <span>{child.first_name}</span>
+              <button
+                type="button"
+                className="roster-item-name"
+                onClick={() => onSelectChild?.(child)}
+              >
+                {child.first_name}
+              </button>
               <button
                 type="button"
                 className="roster-remove"

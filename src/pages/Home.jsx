@@ -32,7 +32,7 @@ export function Home() {
       </header>
 
       <main className="app-main">
-        {activeTab === 'chat' && <Chat />}
+        {activeTab === 'chat' && <Chat classroom={currentClassroom} />}
 
         {activeTab === 'activities' &&
           (currentClassroom ? (
@@ -54,7 +54,9 @@ export function Home() {
             </div>
           ))}
 
-        {activeTab === 'classroom' && <ClassroomScreen />}
+        {activeTab === 'classroom' && (
+          <ClassroomScreen key={currentClassroom?.id ?? 'none'} />
+        )}
       </main>
 
       <TabBar activeTab={activeTab} onChange={setActiveTab} />

@@ -40,3 +40,13 @@ Facial recognition of minors is a legal minefield (COPPA, GDPR, state biometric 
 - Pricing model: per-classroom vs per-staff (decide before director dashboard)
 - Whether to persist chat context per classroom or keep chat general
 - Which speech-to-text approach for photo tagging: browser Web Speech API (free, less accurate) vs a hosted service — start with Web Speech API
+
+## Phase 6 decisions (child-aware chat / notes)
+
+**Note visibility:** Child behavioral notes are visible to all classroom members, matching the app's existing membership model and serving continuity of care (a substitute or co-teacher needs to know what helps a specific child). Flagged to confirm with a real nursery director, since center policies on record access vary.
+
+**Retention:** Notes auto-expire on a rolling 12-month window from creation, AND can be manually deleted by classroom members at any time before that. Rationale: avoids accumulating a permanent dossier on a child; supports parent deletion requests.
+
+**Safeguarding:** The chat system prompt directs teachers to follow their center's own safeguarding/escalation procedure when serious child-safety concerns surface. Sprout is a support tool and does not attempt to handle safeguarding itself.
+
+**Observational, not diagnostic:** Notes and guidance describe observed behavior ("bit a peer when frustrated") and never diagnose, label, or make clinical judgments about a child. Enforced in the system prompt.

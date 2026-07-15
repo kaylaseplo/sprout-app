@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useClassrooms } from '../contexts/classroom-context'
 import { Roster } from './Roster'
+import { ChildNotes } from './ChildNotes'
 import { ClassroomIcon } from '../components/icons'
 
 export function ClassroomScreen() {
@@ -11,6 +12,7 @@ export function ClassroomScreen() {
   const [ageGroup, setAgeGroup] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [viewingChild, setViewingChild] = useState(null)
 
   async function handleCreate(e) {
     e.preventDefault()
@@ -32,6 +34,10 @@ export function ClassroomScreen() {
   }
 
   if (loading) return null
+
+  if (viewingChild) {
+    return <ChildNotes child={viewingChild} onBack={() => setViewingChild(null)} />
+  }
 
   return (
     <div className="screen classroom-panel">
@@ -93,7 +99,7 @@ export function ClassroomScreen() {
       </div>
 
       {currentClassroom ? (
-        <Roster classroom={currentClassroom} />
+        <Roster classroom={currentClassroom} onSelectChild={setViewingChild} />
       ) : (
         classrooms.length > 0 && (
           <div className="screen-empty">
