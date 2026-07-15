@@ -8,7 +8,7 @@ These phases come after the core MVP (Phases 0-4) is complete. Append them to `S
 
 ## Phase 5 — Make Sprout an installable app (PWA)
 
-**Status: NOT STARTED**
+**Status: DONE**
 **Risk level: Low. Self-contained. Safe to build anytime.**
 
 Goal: turn the deployed web app into a Progressive Web App so teachers can add it to their phone home screen and it behaves like a native app (own icon, full screen, no browser chrome).
