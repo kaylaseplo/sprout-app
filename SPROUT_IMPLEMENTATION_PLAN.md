@@ -144,7 +144,7 @@ Goal: port the toddler-toolkit activity generator into Sprout, upgraded with cla
 
 ## Phase 4 — Smart Photo Documentation
 
-**Status: NOT STARTED**
+**Status: DONE**
 
 Goal: the differentiator. Teacher snaps a photo, tags children fast, gets an AI-drafted caption, saves the update. This is the most complex phase — voice, image, and storage together — which is why it's last.
 

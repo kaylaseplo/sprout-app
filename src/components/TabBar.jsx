@@ -1,8 +1,9 @@
-import { ActivityIcon, ChatIcon, ClassroomIcon } from './icons'
+import { ActivityIcon, CameraIcon, ChatIcon, ClassroomIcon } from './icons'
 
 const TABS = [
   { id: 'chat', label: 'Chat', Icon: ChatIcon },
   { id: 'activities', label: 'Activities', Icon: ActivityIcon },
+  { id: 'photos', label: 'Photos', Icon: CameraIcon },
   { id: 'classroom', label: 'Classroom', Icon: ClassroomIcon },
 ]
 
