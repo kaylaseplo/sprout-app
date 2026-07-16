@@ -658,46 +658,27 @@
   padding: 4px 2px 20px;
 }
 
-.chat-bubble-group {
+.chat-add-note-button {
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.chat-note-review {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--cream-soft);
 }
 
-.chat-bubble-group-user {
-  align-items: flex-end;
-}
-
-.chat-bubble-group-assistant {
-  align-items: flex-start;
-}
-
-.chat-note-inline {
-  border: none;
-  background: transparent;
-  padding: 4px 6px;
-  min-height: 32px;
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  color: var(--ink-soft);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  cursor: pointer;
-}
-
-.chat-note-inline:hover {
-  color: var(--green-dark);
-}
-
-.chat-note-inline:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.chat-note-inline-saved {
-  color: var(--green-dark);
-  font-weight: 600;
-  text-decoration: none;
+.chat-note-saved-message {
+  flex-shrink: 0;
+  margin-bottom: 10px;
 }
 
 .chat-bubble {

@@ -11,18 +11,43 @@ export function Chat({ classroom }) {
   const [error, setError] = useState('')
   const [children, setChildren] = useState([])
   const [selectedChildId, setSelectedChildId] = useState('')
-  const [savingNoteKey, setSavingNoteKey] = useState(null)
-  const [savedNoteKeys, setSavedNoteKeys] = useState(new Set())
+  const [conversationStartIndex, setConversationStartIndex] = useState(0)
+  const [draftingNote, setDraftingNote] = useState(false)
+  const [noteReviewText, setNoteReviewText] = useState(null)
+  const [savingNote, setSavingNote] = useState(false)
+  const [noteSaved, setNoteSaved] = useState(false)
   const bottomRef = useRef(null)
 
   useEffect(() => {
-    supabase
-      .from('chat_messages')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: true })
-      .then(({ data }) => setMessages(data ?? []))
-  }, [user.id])
+    let active = true
+
+    async function loadMessages() {
+      let query = supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+
+      query = classroom ? query.eq('classroom_id', classroom.id) : query.is('classroom_id', null)
+
+      const { data } = await query
+
+      if (active) {
+        setMessages(data ?? [])
+        setConversationStartIndex(0)
+        setNoteReviewText(null)
+        setNoteSaved(false)
+        setError('')
+      }
+    }
+
+    loadMessages()
+
+    return () => {
+      active = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.id, classroom?.id])
 
   useEffect(() => {
     let active = true
@@ -57,6 +82,14 @@ export function Chat({ classroom }) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  function handleSelectChild(childId) {
+    setSelectedChildId(childId)
+    setConversationStartIndex(messages.length)
+    setNoteReviewText(null)
+    setNoteSaved(false)
+    setError('')
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     const content = input.trim()
@@ -65,19 +98,15 @@ export function Chat({ classroom }) {
     setError('')
     setInput('')
     setSending(true)
+    setNoteSaved(false)
 
-    const userMessage = {
-      role: 'user',
-      content,
-      _localId: crypto.randomUUID(),
-      childId: selectedChildId || null,
-    }
+    const userMessage = { role: 'user', content, _localId: crypto.randomUUID() }
     const nextMessages = [...messages, userMessage]
     setMessages(nextMessages)
 
     const { error: insertError } = await supabase
       .from('chat_messages')
-      .insert({ user_id: user.id, role: 'user', content })
+      .insert({ user_id: user.id, role: 'user', content, classroom_id: classroom?.id ?? null })
 
     if (insertError) {
       setError(insertError.message)
@@ -103,43 +132,73 @@ export function Chat({ classroom }) {
 
     await supabase
       .from('chat_messages')
-      .insert({ user_id: user.id, role: 'assistant', content: data.reply })
+      .insert({ user_id: user.id, role: 'assistant', content: data.reply, classroom_id: classroom?.id ?? null })
 
     setSending(false)
   }
 
-  async function handleSaveNote(message) {
-    const child = children.find((c) => c.id === message.childId)
-    const key = message._localId
-    if (!child || !classroom || !key) return
+  async function handleAddNote() {
+    const relevantMessages = messages
+      .slice(conversationStartIndex)
+      .map(({ role, content }) => ({ role, content }))
 
-    setSavingNoteKey(key)
+    if (relevantMessages.length === 0 || !selectedChildId) return
+
+    setDraftingNote(true)
+    setError('')
+    setNoteSaved(false)
+
+    const { data, error: fnError } = await supabase.functions.invoke('draft-child-note', {
+      body: { childId: selectedChildId, messages: relevantMessages },
+    })
+
+    setDraftingNote(false)
+
+    if (fnError || data?.error) {
+      setError(fnError?.message || data.error)
+      return
+    }
+
+    setNoteReviewText(data.draft ?? '')
+  }
+
+  async function handleConfirmSaveNote() {
+    const note = (noteReviewText ?? '').trim()
+    if (!note || !selectedChildId || !classroom) return
+
+    setSavingNote(true)
     setError('')
 
     const { error: noteError } = await supabase.from('child_notes').insert({
-      child_id: child.id,
+      child_id: selectedChildId,
       classroom_id: classroom.id,
       created_by: user.id,
-      note: message.content,
+      note,
       source: 'chat',
     })
 
-    setSavingNoteKey(null)
+    setSavingNote(false)
 
     if (noteError) {
       setError(noteError.message)
       return
     }
 
-    setSavedNoteKeys((prev) => new Set(prev).add(key))
+    setNoteReviewText(null)
+    setConversationStartIndex(messages.length)
+    setNoteSaved(true)
   }
+
+  const selectedChild = children.find((c) => c.id === selectedChildId) ?? null
+  const hasNewChildConversation =
+    !!selectedChildId && messages.length > conversationStartIndex && !sending
 
   return (
     <div className="screen chat-screen">
       {classroom && children.length > 0 && (
         <label className="chat-child-select-row">
           Who is this about?
-          <select value={selectedChildId} onChange={(e) => setSelectedChildId(e.target.value)}>
+          <select value={selectedChildId} onChange={(e) => handleSelectChild(e.target.value)}>
             <option value="">General question</option>
             {children.map((child) => (
               <option key={child.id} value={child.id}>
@@ -151,35 +210,63 @@ export function Chat({ classroom }) {
       )}
 
       <div className="chat-messages">
-        {messages.map((m, i) => {
-          const key = m._localId ?? m.id ?? i
-          const child = m.childId ? children.find((c) => c.id === m.childId) : null
-
-          return (
-            <div key={key} className={`chat-bubble-group chat-bubble-group-${m.role}`}>
-              <div className={`chat-bubble chat-bubble-${m.role}`}>
-                <ReactMarkdown>{m.content}</ReactMarkdown>
-              </div>
-              {m.role === 'user' && child && (
-                savedNoteKeys.has(key) ? (
-                  <span className="chat-note-inline chat-note-inline-saved">Saved as note ✓</span>
-                ) : (
-                  <button
-                    type="button"
-                    className="chat-note-inline"
-                    onClick={() => handleSaveNote(m)}
-                    disabled={savingNoteKey === key}
-                  >
-                    {savingNoteKey === key ? 'Saving…' : `Save as note about ${child.first_name}`}
-                  </button>
-                )
-              )}
-            </div>
-          )
-        })}
+        {messages.map((m, i) => (
+          <div key={m._localId ?? m.id ?? i} className={`chat-bubble chat-bubble-${m.role}`}>
+            <ReactMarkdown>{m.content}</ReactMarkdown>
+          </div>
+        ))}
         {sending && <div className="chat-bubble chat-bubble-assistant chat-loading">Thinking…</div>}
         <div ref={bottomRef} />
       </div>
+
+      {selectedChild && noteReviewText !== null && (
+        <div className="chat-note-review">
+          <label className="classroom-field">
+            Review the note before saving (about {selectedChild.first_name})
+            <textarea
+              className="photo-caption-input"
+              value={noteReviewText}
+              onChange={(e) => setNoteReviewText(e.target.value)}
+              rows={4}
+            />
+          </label>
+          <div className="photo-tag-actions">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleConfirmSaveNote}
+              disabled={savingNote || !noteReviewText.trim()}
+            >
+              {savingNote ? 'Saving…' : 'Confirm & save note'}
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => setNoteReviewText(null)}
+              disabled={savingNote}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {noteReviewText === null && noteSaved && (
+        <p className="photo-saved-message chat-note-saved-message">
+          Note saved for {selectedChild?.first_name}.
+        </p>
+      )}
+
+      {noteReviewText === null && hasNewChildConversation && (
+        <button
+          type="button"
+          className="btn btn-secondary chat-add-note-button"
+          onClick={handleAddNote}
+          disabled={draftingNote}
+        >
+          {draftingNote ? 'Drafting note…' : `Add note about ${selectedChild.first_name}`}
+        </button>
+      )}
 
       {error && <p className="auth-error">{error}</p>}
       <form className="chat-input-row" onSubmit={handleSubmit}>
